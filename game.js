@@ -28,13 +28,20 @@ let batSpeedY = 40;
 let batSizeX = 1;
 let batSizeY = 12;
 let batColor = "#FFFFFF";
+
+let ballImageSrc = "https://www.colora.be/nl/media/catalog/product/cache/1/image/620x/17f82f742ffe127f42dca9de82fb58b1/7/1/71014-1/voetbal-30.png";
+
+//player 1 variables
 let bat1PositionX = 1;
 let bat1PositionY = Math.round((gridSizeY - batSizeY * .5) * .5);
 let bat1movingUp = false
 let bat1movingDown = false;
 
+//player 2 variables
 let bat2PositionX = gridSizeX - 2;
 let bat2PositionY = Math.round((gridSizeY - batSizeY * .5) * .5);
+let bat2movingUp = false;
+let bat2movingDown = false;
 
 let scoreLeft = 0;
 let scoreRight = 0;
@@ -53,9 +60,24 @@ let gameOver = false;
  * @param {number} yWidth 
  * @param {string} color example and default: "#FFFFFF"
  */
+
+ //play audiofile (folder: sounds)
+function playAudio(filename)
+{
+    var audio = new Audio(filename);
+    audio.play();
+}
+
+
 function drawRectangle(xPos, yPos, width, height, color = "#FFFFFF") {
     context.fillStyle = color;
     context.fillRect(Math.round(xPos), Math.round(yPos), width, height);
+}
+
+function drawImages(xPos, yPos, width, height)
+{
+    var img = document.getElementById("image");
+    context.drawImage(img, Math.round(xPos), Math.round(yPos));
 }
 
 /**
@@ -86,14 +108,12 @@ function drawGame() {
     drawRectangle(bat2PositionX, bat2PositionY, batSizeX, batSizeY, batColor);
 
     //draw ball
-    drawRectangle(ballPositionX, ballPositionY, ballSizeX, ballSizeY, ballColor);
+    drawImages(ballPositionX, ballPositionY, ballSizeX, ballSizeY);
+
 
     //draw the score
     drawScore();
 }
-
-
-
 
 //GAMELOOP
 /**
@@ -101,6 +121,10 @@ function drawGame() {
  */
 function restart() {
     setTimeout(function() {
+
+        //play game start sound
+        playAudio('sounds/gamestart.wav');
+
         //change game over to false
         gameOver = false;
         
@@ -115,9 +139,19 @@ function restart() {
 
         //@TODO: give the ball a random direction, by creating the 
         //       generateRandomValueBetween function and ucommenting
-        //       the assignment calls made below
+        //       the assignment calls made below        
         // ballSpeedX = generateRandomValueBetween(-40,40);
         // ballSpeedY = generateRandomValueBetween(-20,20);
+
+        function generateRandomValueBetween(numberMin, numberMax)
+        {
+            //number between (0 and 1 * min userinput converted to positive * 2 + 1) - max userinput
+            numberN = Math.floor(Math.random() * Math.abs(numberMin) * 2 + 1) - numberMax; 
+            return numberN; //returns generated number to ballspeedX or Y
+        }
+
+        ballSpeedX = generateRandomValueBetween(-40, 40);
+        ballSpeedY = generateRandomValueBetween(-20, 20);
 
     }, 1000);
 }
@@ -151,22 +185,58 @@ function update() {
         ) {
             //ball collided with player so we reverse it's xSpeed so we have a "bounce"
             ballSpeedX = ballSpeedX * -1;
+            playAudio('sounds/bat1blip.wav');
         }
     }
 
     //@TODO: check for ball colission with player 2
+    if(roundedBallPositionX === bat2PositionX) { //check if the ballposition is the same as the players x position
+        if(
+            roundedBallPositionY >= bat2PositionY && //the rounded ballPosition is greater or equal to the position of the bat
+            roundedBallPositionY < bat2PositionY + batSizeY //the roudned ballPosition is smaller than the batPosition plus its size
+            //if both statements are true we are connecting vertically with the bat
+        ) {
+            //ball collided with player so we reverse it's xSpeed so we have a "bounce"
+            ballSpeedX = ballSpeedX * -1;
+            playAudio('sounds/bat2blip.wav');
+        }
+    }
 
     //@TODO: check for ball with top and bottom boundary colission
+    if(roundedBallPositionY < 0) 
+    {
+        ballSpeedY = ballSpeedY * -1;
+        playAudio('sounds/bounce.wav');
+    }
+
+    if(roundedBallPositionY === gridSizeY) 
+    {
+        ballSpeedY = ballSpeedY * -1;
+        playAudio('sounds/bounce.wav');
+    }
 
     //check if the ball is passed the left boundary
     if(roundedBallPositionX < 0 && !gameOver) {
         gameOver = true;
+        playAudio('sounds/gameover.wav');
         scoreRight++;
         restart();
     }
     
     //@TODO: check if the ball is passed the right boundary
         // -> Restart the game if the boundaries are hit and update the scoreLeft or scoreRight
+    if(roundedBallPositionX > gridSizeX && !gameOver) {
+        gameOver = true;
+        playAudio('sounds/gameover.wav');
+        scoreLeft++;
+        restart();
+    }       
+
+    //@TODO: check if player hits boundary
+    if(bat1PositionY <= gridSizeY)
+    {
+        bat1PositionY === 1;
+    }
 
     //move player 1 up or down
     if(bat1movingUp) {
@@ -176,6 +246,11 @@ function update() {
     }
 
     //@TODO: move player 2 up an down
+    if(bat2movingUp) {
+        bat2PositionY = bat2PositionY - batSpeedY * deltaTime;
+    } else if (bat2movingDown) {
+        bat2PositionY = bat2PositionY + batSpeedY * deltaTime; 
+    }
 
     //call the drawGame functions so that we actually draw the game after all variable changes inside the gameloop are done
     drawGame();
@@ -214,7 +289,30 @@ document.addEventListener('keyup', function(e){
 
 //player 2 input
 //@TODO: listen for player 2 input
+document.addEventListener('keydown', function(e){
+    switch(e.key) {
+        case "i":
+            bat2movingUp = true;
+            break;
+        case "k":
+            bat2movingDown = true;
+            break;
+    }
+});
+
+document.addEventListener('keyup', function(e){
+    switch(e.key) {
+        case "i":
+            bat2movingUp = false;
+            break;
+        case "k":
+            bat2movingDown = false;
+            break;
+    }
+});
 
 //@TODO: add graphical enhancement to the game
+//game has sounds
+//images
 
 //@TODO: add an interesting mechanic to the game
