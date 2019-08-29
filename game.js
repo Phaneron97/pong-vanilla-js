@@ -258,7 +258,7 @@ function update() {
         bat2PositionY = bat2PositionY + batSpeedY * deltaTime; 
     }
 
-    if (lastTime > recordedTime + 500)
+    if (lastTime > recordedTime + 500) //for 500 cycles, the ball is blue #0000FF, after that it gets set to white #FFFFFF again
     {
         ballColor = "#FFFFFF";
         //recordedTime = lastTime;
