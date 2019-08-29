@@ -27,9 +27,8 @@ let ballPositionY = Math.round(gridSizeY * .5);
 let batSpeedY = 40;
 let batSizeX = 1;
 let batSizeY = 12;
+let BatSizeYParts = batSizeY / 3;
 let batColor = "#FFFFFF";
-
-let ballImageSrc = "https://www.colora.be/nl/media/catalog/product/cache/1/image/620x/17f82f742ffe127f42dca9de82fb58b1/7/1/71014-1/voetbal-30.png";
 
 //player 1 variables
 let bat1PositionX = 1;
@@ -49,6 +48,8 @@ let player1Text = "Player 1";
 let player2Text = "Player 2";
 
 let gameOver = false;
+
+let recordedTime = 0;
 
 //RENDER FUNCTIONS
 
@@ -72,12 +73,6 @@ function playAudio(filename)
 function drawRectangle(xPos, yPos, width, height, color = "#FFFFFF") {
     context.fillStyle = color;
     context.fillRect(Math.round(xPos), Math.round(yPos), width, height);
-}
-
-function drawImages(xPos, yPos, width, height)
-{
-    var img = document.getElementById("image");
-    context.drawImage(img, Math.round(xPos), Math.round(yPos));
 }
 
 /**
@@ -108,7 +103,7 @@ function drawGame() {
     drawRectangle(bat2PositionX, bat2PositionY, batSizeX, batSizeY, batColor);
 
     //draw ball
-    drawImages(ballPositionX, ballPositionY, ballSizeX, ballSizeY);
+    drawRectangle(ballPositionX, ballPositionY, ballSizeX, ballSizeY, ballColor);
 
 
     //draw the score
@@ -117,13 +112,15 @@ function drawGame() {
 
 //GAMELOOP
 /**
- * Restarts the game
+ * Restarts the gameiu
  */
 function restart() {
     setTimeout(function() {
 
         //play game start sound
         playAudio('sounds/gamestart.wav');
+
+        recordedTime = 0;
 
         //change game over to false
         gameOver = false;
@@ -152,6 +149,9 @@ function restart() {
 
         ballSpeedX = generateRandomValueBetween(-40, 40);
         ballSpeedY = generateRandomValueBetween(-20, 20);
+
+        console.log("X " + ballSpeedX);
+        console.log("Y " + ballSpeedY);
 
     }, 1000);
 }
@@ -185,6 +185,9 @@ function update() {
         ) {
             //ball collided with player so we reverse it's xSpeed so we have a "bounce"
             ballSpeedX = ballSpeedX * -1;
+            ballColor = "#0000FF";
+            recordedTime = lastTime;
+
             playAudio('sounds/bat1blip.wav');
         }
     }
@@ -198,12 +201,15 @@ function update() {
         ) {
             //ball collided with player so we reverse it's xSpeed so we have a "bounce"
             ballSpeedX = ballSpeedX * -1;
+            ballColor = "#0000FF";
+            recordedTime = lastTime;
+
             playAudio('sounds/bat2blip.wav');
         }
     }
 
     //@TODO: check for ball with top and bottom boundary colission
-    if(roundedBallPositionY < 0) 
+    if(roundedBallPositionY <= 0) 
     {
         ballSpeedY = ballSpeedY * -1;
         playAudio('sounds/bounce.wav');
@@ -251,6 +257,15 @@ function update() {
     } else if (bat2movingDown) {
         bat2PositionY = bat2PositionY + batSpeedY * deltaTime; 
     }
+
+    if (lastTime > recordedTime + 500)
+    {
+        ballColor = "#FFFFFF";
+        //recordedTime = lastTime;
+    } 
+
+    console.log("last Time" + lastTime);
+    console.log("record time" + recordedTime);
 
     //call the drawGame functions so that we actually draw the game after all variable changes inside the gameloop are done
     drawGame();
@@ -313,6 +328,7 @@ document.addEventListener('keyup', function(e){
 
 //@TODO: add graphical enhancement to the game
 //game has sounds
-//images
+
 
 //@TODO: add an interesting mechanic to the game
+//classic pong bounce
