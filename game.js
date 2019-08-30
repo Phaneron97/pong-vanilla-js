@@ -142,9 +142,13 @@ function restart() {
 
         function generateRandomValueBetween(numberMin, numberMax)
         {
+            //random value * (user maxinput * 2) - minvalue converted to positive number
+            var randomN = Math.floor(Math.random()*(numberMax * 2)) - Math.abs(numberMin);           
+            return randomN;
+
             //number between (0 and 1 * min userinput converted to positive * 2 + 1) - max userinput
-            numberN = Math.floor(Math.random() * Math.abs(numberMin) * 2 + 1) - numberMax; 
-            return numberN; //returns generated number to ballspeedX or Y
+            //numberN = Math.floor(Math.random() * Math.abs(numberMin) * 2 + 1) - numberMax; 
+            return randomN; //returns generated number to ballspeedX or Y
         }
 
         ballSpeedX = generateRandomValueBetween(-40, 40);
@@ -263,9 +267,6 @@ function update() {
         ballColor = "#FFFFFF";
         //recordedTime = lastTime;
     } 
-
-    console.log("last Time" + lastTime);
-    console.log("record time" + recordedTime);
 
     //call the drawGame functions so that we actually draw the game after all variable changes inside the gameloop are done
     drawGame();
