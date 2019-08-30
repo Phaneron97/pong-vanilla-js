@@ -143,7 +143,7 @@ function restart() {
         function generateRandomValueBetween(numberMin, numberMax)
         {
             //random value * (user maxinput * 2) - minvalue converted to positive number
-            var randomN = Math.floor(Math.random()*(numberMax * 2)) - Math.abs(numberMin);           
+            var randomN = Math.floor(Math.random()*(numberMax * 2)) - Math.abs(numberMin);
             return randomN;
 
             //number between (0 and 1 * min userinput converted to positive * 2 + 1) - max userinput
@@ -188,7 +188,7 @@ function update() {
             //if both statements are true we are connecting vertically with the bat
         ) {
             //ball collided with player so we reverse it's xSpeed so we have a "bounce"
-            ballSpeedX = ballSpeedX * -1;
+            ballSpeedX = ballSpeedX * -1.5; //every time the ball touches the bat, the ball speeds up x 1.5
             ballColor = "#0000FF";
             recordedTime = lastTime;
 
