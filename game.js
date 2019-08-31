@@ -145,15 +145,13 @@ function restart() {
             //random value * (user maxinput * 2) - minvalue converted to positive number
             var randomN = Math.floor(Math.random()*(numberMax * 2)) - Math.abs(numberMin);
             return randomN;
-
-            //number between (0 and 1 * min userinput converted to positive * 2 + 1) - max userinput
-            //numberN = Math.floor(Math.random() * Math.abs(numberMin) * 2 + 1) - numberMax; 
-            return randomN; //returns generated number to ballspeedX or Y
         }
 
         ballSpeedX = generateRandomValueBetween(-40, 40);
         ballSpeedY = generateRandomValueBetween(-20, 20);
 
+        test = -40;
+        console.log(Math.abs(test));
         console.log("X " + ballSpeedX);
         console.log("Y " + ballSpeedY);
 
@@ -163,6 +161,20 @@ function restart() {
 let deltaTime = 0;
 let lastTime = performance.now();
 let now = performance.now();
+
+function ballSpeedChange()
+{
+    speedChange = Math.random()*3 //random between 0 and 2
+    return speedChange;
+}
+
+function colorChange(timeColor, color)
+{
+    if (lastTime > recordedTime + timeColor) //for amount of timeColor cycles, the ball is blue #0000FF, after the set timeColor to default color #FFFFFF again
+    {
+        ballColor = color;
+    } 
+}
 
 //update is called every frame
 function update() {
@@ -188,7 +200,7 @@ function update() {
             //if both statements are true we are connecting vertically with the bat
         ) {
             //ball collided with player so we reverse it's xSpeed so we have a "bounce"
-            ballSpeedX = ballSpeedX * -1.5; //every time the ball touches the bat, the ball speeds up x 1.5
+            ballSpeedX = ballSpeedX * -ballSpeedChange(); //every time the ball touches the bat, the ball speeds up x 1.5
             ballColor = "#0000FF";
             recordedTime = lastTime;
 
@@ -204,7 +216,7 @@ function update() {
             //if both statements are true we are connecting vertically with the bat
         ) {
             //ball collided with player so we reverse it's xSpeed so we have a "bounce"
-            ballSpeedX = ballSpeedX * -1;
+            ballSpeedX = ballSpeedX * -ballSpeedChange();
             ballColor = "#0000FF";
             recordedTime = lastTime;
 
