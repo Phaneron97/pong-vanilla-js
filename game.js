@@ -162,14 +162,12 @@ let deltaTime = 0;
 let lastTime = performance.now();
 let now = performance.now();
 
-function ballSpeedChange()
-{
+function ballSpeedChange() {
     speedChange = Math.random()*3 //random between 0 and 2
     return speedChange;
 }
 
-function colorChange(timeColor, color)
-{
+function colorChange(timeColor, color) {
     if (lastTime > recordedTime + timeColor) //for amount of timeColor cycles, the ball is blue #0000FF, after the set timeColor to default color #FFFFFF again
     {
         ballColor = color;
@@ -225,14 +223,12 @@ function update() {
     }
 
     //@TODO: check for ball with top and bottom boundary colission
-    if(roundedBallPositionY <= 0) 
-    {
+    if(roundedBallPositionY <= 0) {
         ballSpeedY = ballSpeedY * -1;
         playAudio('sounds/bounce.wav');
     }
 
-    if(roundedBallPositionY === gridSizeY) 
-    {
+    if(roundedBallPositionY === gridSizeY) {
         ballSpeedY = ballSpeedY * -1;
         playAudio('sounds/bounce.wav');
     }
@@ -255,8 +251,7 @@ function update() {
     }       
 
     //@TODO: check if player hits boundary
-    if(bat1PositionY <= gridSizeY)
-    {
+    if(bat1PositionY <= gridSizeY) {
         bat1PositionY === 1;
     }
 
@@ -274,8 +269,8 @@ function update() {
         bat2PositionY = bat2PositionY + batSpeedY * deltaTime; 
     }
 
-    if (lastTime > recordedTime + 500) //for 500 cycles, the ball is blue #0000FF, after that it gets set to white #FFFFFF again
-    {
+    if (lastTime > recordedTime + 500) {//for 500 cycles, the ball is blue #0000FF, after that it gets set to white #FFFFFF again
+    
         ballColor = "#FFFFFF";
         //recordedTime = lastTime;
     } 
@@ -293,7 +288,7 @@ window.requestAnimationFrame(update);
 //INPUT HANDLING
 
 //listen for player 1 input
-document.addEventListener('keydown', function(e){
+document.addEventListener('keydown', function(e) {
     switch(e.key) {
         case "w":
             bat1movingUp = true;
@@ -304,7 +299,7 @@ document.addEventListener('keydown', function(e){
     }
 });
 
-document.addEventListener('keyup', function(e){
+document.addEventListener('keyup', function(e) {
     switch(e.key) {
         case "w":
             bat1movingUp = false;
@@ -317,7 +312,7 @@ document.addEventListener('keyup', function(e){
 
 //player 2 input
 //@TODO: listen for player 2 input
-document.addEventListener('keydown', function(e){
+document.addEventListener('keydown', function(e) {
     switch(e.key) {
         case "i":
             bat2movingUp = true;
@@ -328,7 +323,7 @@ document.addEventListener('keydown', function(e){
     }
 });
 
-document.addEventListener('keyup', function(e){
+document.addEventListener('keyup', function(e) {
     switch(e.key) {
         case "i":
             bat2movingUp = false;
@@ -344,4 +339,4 @@ document.addEventListener('keyup', function(e){
 
 
 //@TODO: add an interesting mechanic to the game
-//classic pong bounce
+//TODO: classic pong bounce
