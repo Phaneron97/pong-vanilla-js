@@ -142,14 +142,22 @@ function restart() {
         // ballSpeedX = generateRandomValueBetween(-40,40);
         // ballSpeedY = generateRandomValueBetween(-20,20);
 
-        function generateRandomValueBetween(numberMax)
+
+        function generateRandomValueBetween(number)
         {
-            randN = Math.random() < 0.5 ? -1 : 1;
-            generatedN = randN * numberMax;
+            randN = Math.random();
 
-            //console.log("generated number = " + generatedN);
+            //convert parameter to negative * random number for random direction
+            if (randN > .5) {
+                total = -Math.abs(number) * Math.random();
+            } else { //no change in parameter * random number for random direction
+                total = number * Math.random();
+            }
 
-            return generatedN;
+            //log
+            console.log("total = " + total);
+
+            return total;
         }
 
         ballSpeedX = generateRandomValueBetween(40);        
