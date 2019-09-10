@@ -136,7 +136,7 @@ function restart() {
         bat2PositionX = gridSizeX - 2;
         bat2PositionY = Math.round((gridSizeY - batSizeY * .5) * .5);
 
-        //@TODO: give the ball a random direction, by creating the 
+        //@DONE: give the ball a random direction, by creating the 
         //       generateRandomValueBetween function and ucommenting
         //       the assignment calls made below        
         // ballSpeedX = generateRandomValueBetween(-40,40);
@@ -153,9 +153,6 @@ function restart() {
             } else { //no change in parameter * random number for random direction
                 total = number * Math.random();
             }
-
-            //log
-            console.log("total = " + total);
 
             return total;
         }
@@ -217,7 +214,7 @@ function update() {
         }
     }
 
-    //@TODO: check for ball colission with player 2
+    //@DONE: check for ball colission with player 2
     if(roundedBallPositionX === bat2PositionX) { //check if the ballposition is the same as the players x position
         if(
             roundedBallPositionY >= bat2PositionY && //the rounded ballPosition is greater or equal to the position of the bat
@@ -233,7 +230,7 @@ function update() {
         }
     }
 
-    //@TODO: check for ball with top and bottom boundary colission
+    //@DONE: check for ball with top and bottom boundary colission
     if(roundedBallPositionY <= 0) {
         ballSpeedY = ballSpeedY * -1;
         playAudio('sounds/bounce.wav');
@@ -252,7 +249,7 @@ function update() {
         restart();
     }
     
-    //@TODO: check if the ball is passed the right boundary
+    //@DONE: check if the ball is passed the right boundary
         // -> Restart the game if the boundaries are hit and update the scoreLeft or scoreRight
     if(roundedBallPositionX > gridSizeX && !gameOver) {
         gameOver = true;
@@ -261,7 +258,7 @@ function update() {
         restart();
     }       
 
-    //@TODO: check if player hits boundary
+    //@DONE: check if player hits boundary
     if(bat1PositionY <= gridSizeY) {
         bat1PositionY === 1;
     }
@@ -273,7 +270,7 @@ function update() {
         bat1PositionY = bat1PositionY + batSpeedY * deltaTime; 
     }
 
-    //@TODO: move player 2 up an down
+    //@DONE: move player 2 up an down
     if(bat2movingUp) {
         bat2PositionY = bat2PositionY - batSpeedY * deltaTime;
     } else if (bat2movingDown) {
@@ -322,7 +319,7 @@ document.addEventListener('keyup', function(e) {
 });
 
 //player 2 input
-//@TODO: listen for player 2 input
+//@DONE: listen for player 2 input
 document.addEventListener('keydown', function(e) {
     switch(e.key) {
         case "i":
@@ -345,7 +342,7 @@ document.addEventListener('keyup', function(e) {
     }
 });
 
-//@TODO: add graphical enhancement to the game
+//@DONE: add graphical enhancement to the game
 //game has sounds
 
 
