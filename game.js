@@ -114,6 +114,8 @@ function drawGame() {
 /**
  * Restarts the gameiu
  */
+
+ numberX = 40;
 function restart() {
     setTimeout(function() {
 
@@ -140,20 +142,21 @@ function restart() {
         // ballSpeedX = generateRandomValueBetween(-40,40);
         // ballSpeedY = generateRandomValueBetween(-20,20);
 
-        function generateRandomValueBetween(numberMin, numberMax)
+        function generateRandomValueBetween(numberMax)
         {
-            //random value * (user maxinput * 2) - minvalue converted to positive number
-            var randomN = Math.floor(Math.random()*(numberMax * 2)) - Math.abs(numberMin);
-            return randomN;
+            randN = Math.random() < 0.5 ? -1 : 1;
+            generatedN = randN * numberMax;
+
+            //console.log("generated number = " + generatedN);
+
+            return generatedN;
         }
 
-        ballSpeedX = generateRandomValueBetween(-40, 40);
-        ballSpeedY = generateRandomValueBetween(-20, 20);
+        ballSpeedX = generateRandomValueBetween(40);        
+        ballSpeedY = generateRandomValueBetween(20);  
 
-        test = -40;
-        console.log(Math.abs(test));
-        console.log("X " + ballSpeedX);
-        console.log("Y " + ballSpeedY);
+        console.log("X = " + ballSpeedX);
+        console.log("Y = " + ballSpeedY);
 
     }, 1000);
 }
