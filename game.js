@@ -114,8 +114,7 @@ function drawGame() {
 /**
  * Restarts the gameiu
  */
-
- numberX = 40;
+ 
 function restart() {
     setTimeout(function() {
 
